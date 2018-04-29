@@ -1,5 +1,7 @@
 package assignment7;
 
+import javafx.application.Application;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,6 +9,7 @@ import java.io.FileReader;
 import java.util.*;
 
 import static java.lang.Integer.min;
+import static javafx.application.Application.launch;
 
 public class cheaters {
 
@@ -14,32 +17,35 @@ public class cheaters {
         ArrayList<Hashtable<String, Integer>> filesContents = new ArrayList<>();
 
         //1) parse input
-
         try {
             filesContents = parseInput(args[0], Integer.valueOf(args[1]));
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.print("Incorrect number of inputs. Please try again using \"java cheaters [path to file] [number of words] [suspicion level (optional)]\"");
         }
+
         //2) compare files
         System.out.print("debug");
         ArrayList<Hashtable<String, Integer>> similarities = new ArrayList<>(); //todo track String = file1,file2 and Integer = number of collisions
         similarities = compareFiles(filesContents);
+
         //3) print output
         Integer suspicionLevel = 0;
         if (args.length == 3) {
             Integer.parseInt(args[2]);
         }
         printSimilarities(similarities, suspicionLevel);
+        Application.launch(LineGraph.class, args);
         System.out.print("debug2"); // todo
     }
 
-    private static void printSimilarities(ArrayList<Hashtable<String,Integer>> similarities, Integer suspicionLevel) {
-        for(int i =0; i < similarities.size(); i++){
-        for (String files : similarities.get(i).keySet()) {
-            if (similarities.get(i).get(files) >= suspicionLevel) {
-                System.out.println(files + ": " + similarities.get(i).get(files) + " similarities");
+    private static void printSimilarities(ArrayList<Hashtable<String, Integer>> similarities, Integer suspicionLevel) {
+        for (int i = 0; i < similarities.size(); i++) {
+            for (String files : similarities.get(i).keySet()) {
+                if (similarities.get(i).get(files) >= suspicionLevel) {
+                    LineGraph.fileSimilarities.add(similarities.get(i));
+                    System.out.println(files + ": " + similarities.get(i).get(files) + " similarities");
+                }
             }
-        }
         }
     }
 
@@ -54,20 +60,6 @@ public class cheaters {
                 collisions.add(compare(filesContents.get(k), filesContents.get(l), String.valueOf(k), String.valueOf(l)));
             }
         }
-//        for (int i = 0; i < filesContents.size(); i++) {
-//            for (int j = i + 1; j < filesContents.size(); j++) {
-//                Set<String> first = filesContents.get(i).keySet();
-//                Set<String> collisions = new HashSet<>(first); // todo find some way of notating the two files that matched
-//                Set<String> second = filesContents.get(j).keySet();
-//                collisions.retainAll(second);
-//                int collided = collisions.size();
-//                if (collided > 0) {
-////                    System.out.println("f1 , f2: " + collided + " similarities"); // todo
-//                    fileCollisions.put(String.valueOf(file1) + String.valueOf(file2), collided); // todo replace "file1 file 2" with file names
-//                    file1++; file2++;
-//                }
-//            }
-
         return collisions;
     }
 
