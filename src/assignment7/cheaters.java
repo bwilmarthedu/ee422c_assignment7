@@ -41,11 +41,11 @@ public class cheaters {
         }
 
         /*2) compare files*/
-        HashMap<String, HashMap<String, Integer>> similarities;
+        HashMap<String, Integer> similarities;
         similarities = compareFiles(filesContents);
 
         /*3) print output*/
-        Integer suspicionLevel = 0;
+        Integer suspicionLevel = 1;
         if (args.length == 3) {
             suspicionLevel = Integer.parseInt(args[2]);
         }
@@ -67,15 +67,15 @@ public class cheaters {
      * @param similarities   is a HashMap of HashMaps where the String value of the combined filenames is the key to each HashMap of filenames and number of similarities
      * @param suspicionLevel is the number of similarities a file must exceed to be considered "suspicious" and output
      */
-    private static void printSimilarities(HashMap<String, HashMap<String, Integer>> similarities, Integer suspicionLevel) {
+    private static void printSimilarities(HashMap<String, Integer> similarities, Integer suspicionLevel) {
         for (String keys : similarities.keySet()) {
-            for (String s : similarities.get(keys).keySet()) {
-                if (similarities.get(keys).get(s) >= suspicionLevel) {
-                    LineGraph.fileSimilarities.add(similarities.get(keys));
-                    System.out.println(keys + ": " + similarities.get(keys).get(s) + " similarities");
-                }
+//            for (String s : similarities.get(keys).keySet()) {
+            if (similarities.get(keys) >= suspicionLevel) {
+//                    LineGraph.fileSimilarities.add(keys);
+                System.out.println(keys + ": " + similarities.get(keys) + " similarities");
             }
         }
+//        }
     }
 
     /**
@@ -84,8 +84,8 @@ public class cheaters {
      * @param filesContents A HashMap with key: the filename and value: a HashMap with key: every N length string and value: the number of times it occurred
      * @return A HashMap with key: the combined filenames and value: a HashMap with the combined filenames and value: the number of collisions between the two
      */
-    private static HashMap<String, HashMap<String, Integer>> compareFiles(HashMap<String, HashMap<String, Integer>> filesContents) {
-        HashMap<String, HashMap<String, Integer>> collisions = new HashMap<>();
+    private static HashMap<String, Integer> compareFiles(HashMap<String, HashMap<String, Integer>> filesContents) {
+        HashMap<String, Integer> collisions = new HashMap<>();
         for (String key1 : filesContents.keySet()) {
             for (String key2 : filesContents.keySet()) {
                 String combinedKey = combine(key1, key2);
@@ -106,7 +106,7 @@ public class cheaters {
      * @param file2Name the name of file2
      * @return A HashMap with the combined filename as key and the number of times it collides as value
      */
-    private static HashMap<String, Integer> compare(HashMap<String, Integer> h1, HashMap<String, Integer> h2, String file1Name, String file2Name) {
+    private static Integer compare(HashMap<String, Integer> h1, HashMap<String, Integer> h2, String file1Name, String file2Name) {
         HashMap<String, Integer> small;
         HashMap<String, Integer> large;
         HashMap<String, Integer> collisions = new HashMap<>();
@@ -127,7 +127,10 @@ public class cheaters {
                 collisions.put(combinedKey, old + min(small.get(s), large.get(s)));
             }
         }
-        return collisions;
+        if (collisions.get(combinedKey) == null) {
+            return 0;
+        }
+        return collisions.get(combinedKey);
     }
 
     /**
@@ -138,7 +141,7 @@ public class cheaters {
      * @return a HashMap with key: filename and value: a HashMap with key: every N length string and value: the number of times it appears in the file
      */
     private static HashMap<String, HashMap<String, Integer>> parseInput(String arg, Integer numWords) {
-        HashMap<String, HashMap<String, Integer>> filesContents = new HashMap<String, HashMap<String, Integer>>();
+        HashMap<String, HashMap<String, Integer>> filesContents = new HashMap<>();
         File folder = new File(arg);
         for (File f : Objects.requireNonNull(folder.listFiles())) {
             HashMap<String, Integer> phrases = new HashMap<>();
