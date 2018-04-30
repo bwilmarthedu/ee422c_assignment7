@@ -14,7 +14,7 @@ import static javafx.application.Application.launch;
 public class cheaters {
 
     public static void main(String args[]) {
-        ArrayList<Hashtable<String, Integer>> filesContents = new ArrayList<>();
+        Hashtable<String, Hashtable<String, Integer>> filesContents = new Hashtable<>();
 
         //1) parse input
         try {
@@ -25,7 +25,7 @@ public class cheaters {
 
         //2) compare files
         System.out.print("debug");
-        ArrayList<Hashtable<String, Integer>> similarities = new ArrayList<>(); //todo track String = file1,file2 and Integer = number of collisions
+        Hashtable<String, Hashtable<String, Integer>> similarities = new Hashtable<>(); //todo track String = file1,file2 and Integer = number of collisions
         similarities = compareFiles(filesContents);
 
         //3) print output
@@ -49,15 +49,15 @@ public class cheaters {
         }
     }
 
-    private static ArrayList<Hashtable<String, Integer>> compareFiles(ArrayList<Hashtable<String, Integer>> filesContents) {
+    private static Hashtable<String, Hashtable<String, Integer>> compareFiles(ArrayList<Hashtable<String, Integer>> filesContents) {
         int file1 = 0;
         int file2 = 1;
-        ArrayList<Hashtable<String, Integer>> collisions = new ArrayList<>();
+        Hashtable<String, Hashtable<String, Integer>> collisions = new Hashtable<>();
         Hashtable<String, Integer> fileCollisions = new Hashtable<>();
         for (int k = 0; k < filesContents.size() - 1; k++) {
             for (int l = k + 1; l < filesContents.size(); l++) {
 
-                collisions.add(compare(filesContents.get(k), filesContents.get(l), String.valueOf(k), String.valueOf(l)));
+                collisions.put(compare(filesContents.get(k), filesContents.get(l), String.valueOf(k), String.valueOf(l))); //todo
             }
         }
         return collisions;
@@ -89,8 +89,8 @@ public class cheaters {
         return collisions;
     }
 
-    private static ArrayList<Hashtable<String, Integer>> parseInput(String arg, Integer numWords) {
-        ArrayList<Hashtable<String, Integer>> filesContents = new ArrayList<>();
+    private static Hashtable<String, Hashtable<String, Integer>> parseInput(String arg, Integer numWords) {
+        Hashtable<String, Hashtable<String, Integer>> filesContents = new Hashtable<String, Hashtable<String,Integer>>();
 
         File folder = new File(arg);
         for (File f : Objects.requireNonNull(folder.listFiles())) {
@@ -120,7 +120,7 @@ public class cheaters {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            filesContents.add(phrases);
+            filesContents.put(f.toString(), phrases);
         }
         return filesContents;
     }
