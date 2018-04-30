@@ -31,7 +31,7 @@ public class cheaters {
      * @param args Should be input as [path to folder] [number of words] [(level to raise suspicion)]
      */
     public static void main(String args[]) {
-        Hashtable<String, Hashtable<String, Integer>> filesContents = new Hashtable<>();
+        HashMap<String, HashMap<String, Integer>> filesContents = new HashMap<>();
 
         /*1) parse input*/
         try {
@@ -41,7 +41,7 @@ public class cheaters {
         }
 
         /*2) compare files*/
-        Hashtable<String, Hashtable<String, Integer>> similarities;
+        HashMap<String, HashMap<String, Integer>> similarities;
         similarities = compareFiles(filesContents);
 
         /*3) print output*/
@@ -64,10 +64,10 @@ public class cheaters {
     /**
      * This function prints out the filenames as well and the number of similar N length strings between them
      *
-     * @param similarities   is a hashtable of hashtables where the String value of the combined filenames is the key to each hashtable of filenames and number of similarities
+     * @param similarities   is a HashMap of HashMaps where the String value of the combined filenames is the key to each HashMap of filenames and number of similarities
      * @param suspicionLevel is the number of similarities a file must exceed to be considered "suspicious" and output
      */
-    private static void printSimilarities(Hashtable<String, Hashtable<String, Integer>> similarities, Integer suspicionLevel) {
+    private static void printSimilarities(HashMap<String, HashMap<String, Integer>> similarities, Integer suspicionLevel) {
         for (String keys : similarities.keySet()) {
             for (String s : similarities.get(keys).keySet()) {
                 if (similarities.get(keys).get(s) >= suspicionLevel) {
@@ -81,11 +81,11 @@ public class cheaters {
     /**
      * Compares every pairing of files
      *
-     * @param filesContents A hashtable with key: the filename and value: a hashtable with key: every N length string and value: the number of times it occurred
-     * @return A hashtable with key: the combined filenames and value: a hashtable with the combined filenames and value: the number of collisions between the two
+     * @param filesContents A HashMap with key: the filename and value: a HashMap with key: every N length string and value: the number of times it occurred
+     * @return A HashMap with key: the combined filenames and value: a HashMap with the combined filenames and value: the number of collisions between the two
      */
-    private static Hashtable<String, Hashtable<String, Integer>> compareFiles(Hashtable<String, Hashtable<String, Integer>> filesContents) {
-        Hashtable<String, Hashtable<String, Integer>> collisions = new Hashtable<>();
+    private static HashMap<String, HashMap<String, Integer>> compareFiles(HashMap<String, HashMap<String, Integer>> filesContents) {
+        HashMap<String, HashMap<String, Integer>> collisions = new HashMap<>();
         for (String key1 : filesContents.keySet()) {
             for (String key2 : filesContents.keySet()) {
                 String combinedKey = combine(key1, key2);
@@ -98,18 +98,18 @@ public class cheaters {
     }
 
     /**
-     * Compares two file contents to find collisions. Takes the smaller of the two files and compares its contents against the larger with a hashtable
+     * Compares two file contents to find collisions. Takes the smaller of the two files and compares its contents against the larger with a HashMap
      *
-     * @param h1        the first hashtable containing all N length phrases in file1
-     * @param h2        the second hashtable containing all N length phrases in file 2
+     * @param h1        the first HashMap containing all N length phrases in file1
+     * @param h2        the second HashMap containing all N length phrases in file 2
      * @param file1Name the name of file1
      * @param file2Name the name of file2
-     * @return A hashtable with the combined filename as key and the number of times it collides as value
+     * @return A HashMap with the combined filename as key and the number of times it collides as value
      */
-    private static Hashtable<String, Integer> compare(Hashtable<String, Integer> h1, Hashtable<String, Integer> h2, String file1Name, String file2Name) {
-        Hashtable<String, Integer> small;
-        Hashtable<String, Integer> large;
-        Hashtable<String, Integer> collisions = new Hashtable<>();
+    private static HashMap<String, Integer> compare(HashMap<String, Integer> h1, HashMap<String, Integer> h2, String file1Name, String file2Name) {
+        HashMap<String, Integer> small;
+        HashMap<String, Integer> large;
+        HashMap<String, Integer> collisions = new HashMap<>();
         String combinedKey = combine(file1Name, file2Name);
         if (h1.size() < h2.size()) {
             small = h1;
@@ -135,13 +135,13 @@ public class cheaters {
      *
      * @param arg      the arguments passed to the class
      * @param numWords the number of words in a phrase ("N")
-     * @return a hashtable with key: filename and value: a hashtable with key: every N length string and value: the number of times it appears in the file
+     * @return a HashMap with key: filename and value: a HashMap with key: every N length string and value: the number of times it appears in the file
      */
-    private static Hashtable<String, Hashtable<String, Integer>> parseInput(String arg, Integer numWords) {
-        Hashtable<String, Hashtable<String, Integer>> filesContents = new Hashtable<String, Hashtable<String, Integer>>();
+    private static HashMap<String, HashMap<String, Integer>> parseInput(String arg, Integer numWords) {
+        HashMap<String, HashMap<String, Integer>> filesContents = new HashMap<String, HashMap<String, Integer>>();
         File folder = new File(arg);
         for (File f : Objects.requireNonNull(folder.listFiles())) {
-            Hashtable<String, Integer> phrases = new Hashtable<>();
+            HashMap<String, Integer> phrases = new HashMap<>();
             try {
                 Scanner sc = new Scanner(new BufferedReader(new FileReader(f)));
                 LinkedList<String> words = new LinkedList<>();

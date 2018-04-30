@@ -27,11 +27,11 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 
 public class LineGraph extends Application {
-    static ArrayList<Hashtable<String, Integer>> fileSimilarities = new ArrayList<>();
+    static ArrayList<HashMap<String, Integer>> fileSimilarities = new ArrayList<>();
 
     @Override
     public void start(Stage stage) {
