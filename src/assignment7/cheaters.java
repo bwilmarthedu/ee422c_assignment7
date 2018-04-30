@@ -22,8 +22,7 @@ public class cheaters {
         }
 
         /*2) compare files*/
-        System.out.print("debug");
-        Hashtable<String, Hashtable<String, Integer>> similarities = new Hashtable<>();
+        Hashtable<String, Hashtable<String, Integer>> similarities;
         similarities = compareFiles(filesContents);
 
         /*3) print output*/
@@ -47,12 +46,8 @@ public class cheaters {
     }
 
     private static Hashtable<String, Hashtable<String, Integer>> compareFiles(Hashtable<String, Hashtable<String, Integer>> filesContents) {
-        int file1 = 0;
-        int file2 = 1;
         Hashtable<String, Hashtable<String, Integer>> collisions = new Hashtable<>();
-        Hashtable<String, Integer> fileCollisions = new Hashtable<>();
         for (String key1 : filesContents.keySet()) {
-            Set<String> keySet = filesContents.keySet();
             for (String key2 : filesContents.keySet()) {
                 String combinedKey = combine(key1, key2);
                 if (collisions.get(combinedKey) == null && !key1.equals(key2)) {
@@ -103,7 +98,7 @@ public class cheaters {
                 Scanner sc = new Scanner(new BufferedReader(new FileReader(f)));
                 LinkedList<String> words = new LinkedList<>();
                 while (sc.hasNext()) {
-                    boolean add = words.add(String.valueOf(sc.next()).replaceAll("[^a-zA-Z ]", "").toLowerCase());
+                    words.add(String.valueOf(sc.next()).replaceAll("[^a-zA-Z ]", "").toLowerCase());
                 }
                 for (int i = 0; i < words.size() - numWords; i++) {
                     StringBuilder phrase = new StringBuilder();
@@ -111,7 +106,6 @@ public class cheaters {
                         phrase.append(words.get(j + i)).append(" ");
                     }
                     if (phrases.containsKey(phrase.toString())) {
-                        //todo utilize
                         phrases.put(phrase.toString(), (phrases.get(phrase.toString()) + 1));
                     } else {
                         phrases.put(phrase.toString(), 1);
