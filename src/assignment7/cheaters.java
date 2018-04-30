@@ -90,10 +90,11 @@ public class cheaters {
     }
 
     private static ArrayList<Hashtable<String, Integer>> parseInput(String arg, Integer numWords) {
-        ArrayList<Hashtable<String, Integer>> filesContents = new ArrayList<>();
+        Hashtable<String,Hashtable<String, Integer>> filesContents = new Hashtable<>();
 
         File folder = new File(arg);
         for (File f : Objects.requireNonNull(folder.listFiles())) {
+            f.to
             Hashtable<String, Integer> phrases = new Hashtable<>();
             try {
                 Scanner sc = new Scanner(new BufferedReader(new FileReader(f))); //todo
