@@ -1,3 +1,16 @@
+/* Cheaters <Main.java>
+ * EE422C Project 7 submission by
+ * Replace <...> with your actual data.
+ * Kassandra Smith
+ * KSS2474
+ * 15465
+ * Brian Wilmarth
+ * bw24274
+ * 15455
+ * Slip days used: <0>
+ * Spring 2018
+ */
+
 package assignment7;
 
 import javafx.application.Application;
