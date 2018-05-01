@@ -1,6 +1,5 @@
-/* Cheaters <Main.java>
+/* Cheaters <cheaters.java>
  * EE422C Project 7 submission by
- * Replace <...> with your actual data.
  * Kassandra Smith
  * KSS2474
  * 15465
