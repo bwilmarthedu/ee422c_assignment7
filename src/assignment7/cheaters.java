@@ -50,14 +50,21 @@ public class cheaters {
             suspicionLevel = Integer.parseInt(args[2]);
         }
         printSimilarities(similarities, suspicionLevel);
-        showSimiliarities();
+        showSimiliarities(similarities, suspicionLevel);
 
     }
 
     /**
      * This function launches the JavaFX visual representation of the similarities between files
      */
-    private static void showSimiliarities() {
+    private static void showSimiliarities(HashMap<String, Integer> similarities, Integer suspicionLevel) {
+        //method is inefficient and could be streamlined by running this loop in print similarities, but we want to maintain them separately
+        for (String keys : similarities.keySet()) {
+            if (similarities.get(keys) >= suspicionLevel) {
+                LineGraph.fileSimilarities.put(keys, similarities.get(keys));
+            }
+        }
+
         Application.launch(LineGraph.class);
     }
 
@@ -69,13 +76,10 @@ public class cheaters {
      */
     private static void printSimilarities(HashMap<String, Integer> similarities, Integer suspicionLevel) {
         for (String keys : similarities.keySet()) {
-//            for (String s : similarities.get(keys).keySet()) {
             if (similarities.get(keys) >= suspicionLevel) {
-//                    LineGraph.fileSimilarities.add(keys);
                 System.out.println(keys + ": " + similarities.get(keys) + " similarities");
             }
         }
-//        }
     }
 
     /**
