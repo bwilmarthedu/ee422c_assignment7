@@ -49,14 +49,14 @@ public class cheaters {
             suspicionLevel = Integer.parseInt(args[2]);
         }
         printSimilarities(similarities, suspicionLevel);
-        showSimiliarities(similarities, suspicionLevel);
+        showSimilarities(similarities, suspicionLevel);
 
     }
 
     /**
      * This function launches the JavaFX visual representation of the similarities between files
      */
-    private static void showSimiliarities(HashMap<String, Integer> similarities, Integer suspicionLevel) {
+    private static void showSimilarities(HashMap<String, Integer> similarities, Integer suspicionLevel) {
         //method is inefficient and could be streamlined by running this loop in print similarities, but we want to maintain them separately
         for (String keys : similarities.keySet()) {
             if (similarities.get(keys) >= suspicionLevel) {
